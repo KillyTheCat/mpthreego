@@ -15,7 +15,7 @@ Function to play an mp3 file pointed to by the filepath and filename
    example filepath: C:/mp3files/
    example filename: some_song.mp3
 */
-func PlayFile(filepath string, filename string, donem chan bool) {
+func PlayFile(filepath string, filename string, done_main chan bool) {
 	f, err := os.Open(filepath+filename)
 	if err != nil {
 		log.Fatal(err)
@@ -37,5 +37,5 @@ func PlayFile(filepath string, filename string, donem chan bool) {
 		done <- true
 	})))
 	<- done
-	donem <- true
+	done_main <- true
 }
