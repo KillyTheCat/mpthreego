@@ -20,10 +20,13 @@ func main() {
 		fmt.Println("Now playing file ", filepath, "\nPress \"s\" and then enter to skip current file")
 		var temp string
 		go func() {
-			fmt.Scanln(&temp)
-			if temp == "s" {
-				exit <- true
-				done <- true
+			for {
+				fmt.Scanln(&temp)
+				switch temp {
+				case "s":
+					done <- true
+					return
+				}
 			}
 		}()
 		<- done
