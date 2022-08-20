@@ -11,12 +11,11 @@ import (
 )
 
 /*
-Function to play an mp3 file pointed to by the filepath and filename
-   example filepath: C:/mp3files/
-   example filename: some_song.mp3
+Function to play an mp3 file pointed to by the filepath, needs a channel to tell caller that song has finished and another channel to 
+   example filepath: C:/mp3files/some_song.mp3
 */
-func PlayFile(filepath string, filename string, done_main chan bool) {
-	f, err := os.Open(filepath+filename)
+func PlayFile(filepath string, done_main chan bool, exit chan bool) {
+	f, err := os.Open(filepath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -32,10 +31,19 @@ func PlayFile(filepath string, filename string, done_main chan bool) {
 	
 	done := make(chan bool)
 
-	// there's some concurrency shit going on in here
+	/* there's some concurrency shit going on in here
+	/ Okay I understand now, this here beep.Seq function takes streamers as it's arguments and then plays them sequentially.
+	/ Now instead of a streamer, we send it a callback function which signals a channel's value to true and that's basically it.
+	*/
 	speaker.Play(beep.Seq(streamer, beep.Callback(func() {
 		done <- true
 	})))
-	<- done
-	done_main <- true
+	select {
+	case <- done:
+		done_main <- true
+		return
+	case <- exit:
+		done_main <- true
+		return
+	}
 }
