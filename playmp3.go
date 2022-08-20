@@ -14,7 +14,7 @@ import (
 Function to play an mp3 file pointed to by the filepath, needs a channel to tell caller that song has finished and another channel to 
    example filepath: C:/mp3files/some_song.mp3
 */
-func PlayFile(filepath string, done_main chan bool, exit chan bool) {
+func PlayFile(filepath string, done_main chan bool) {
 	f, err := os.Open(filepath)
 	if err != nil {
 		log.Fatal(err)
@@ -38,12 +38,5 @@ func PlayFile(filepath string, done_main chan bool, exit chan bool) {
 	speaker.Play(beep.Seq(streamer, beep.Callback(func() {
 		done <- true
 	})))
-	select {
-	case <- done:
-		done_main <- true
-		return
-	case <- exit:
-		done_main <- true
-		return
-	}
+	<- done
 }

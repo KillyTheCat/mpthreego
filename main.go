@@ -6,6 +6,11 @@ import (
 )
 
 func main() {
+	if len(os.Args) < 2 {
+		fmt.Printf("Usage: %s [dir] where dir is a directory with mp3 files", os.Args[0])
+		os.Exit(1)
+	}
+
 	fmt.Printf("Searching for mp3 files in directory %s\n", os.Args[1])
 	mp3s := lookForMp3sInDirectory(os.Args[1])
 	if len(mp3s) == 0 {
@@ -15,10 +20,10 @@ func main() {
 	for index, filepath := range mp3s {
 		fmt.Println("Playing song ", index)
 		done := make(chan bool)
-		exit := make(chan bool)
-		go PlayFile(filepath, done, exit)
+		go PlayFile(filepath, done)
 		fmt.Println("Now playing file ", filepath, "\nPress \"s\" and then enter to skip current file")
 		var temp string
+
 		go func() {
 			for {
 				fmt.Scanln(&temp)
