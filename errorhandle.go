@@ -9,3 +9,7 @@ func handleFatal(err error) {
 		log.Fatalln(err)
 	}
 }
+
+func DeferPushChan(ch chan bool) {
+	ch <- true
+}

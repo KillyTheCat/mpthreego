@@ -39,4 +39,5 @@ func PlayFile(filepath string, done_main chan bool) {
 		done <- true
 	})))
 	<- done
+	done_main <- true
 }
