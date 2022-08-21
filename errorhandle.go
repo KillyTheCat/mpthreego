@@ -10,6 +10,3 @@ func handleFatal(err error) {
 	}
 }
 
-func DeferPushChan(ch chan bool) {
-	ch <- true
-}

@@ -1,3 +1,6 @@
+# github.com/buger/goterm v1.0.4
+## explicit; go 1.15
+github.com/buger/goterm
 # github.com/faiface/beep v1.1.0
 ## explicit; go 1.14
 github.com/faiface/beep
@@ -47,6 +50,8 @@ golang.org/x/mobile/event/touch
 golang.org/x/mobile/geom
 golang.org/x/mobile/gl
 golang.org/x/mobile/internal/mobileinit
-# golang.org/x/sys v0.0.0-20190626150813-e07cf5db2756
+# golang.org/x/sys v0.0.0-20210331175145-43e1dd70ce54
 ## explicit; go 1.12
+golang.org/x/sys/internal/unsafeheader
+golang.org/x/sys/unix
 golang.org/x/sys/windows
