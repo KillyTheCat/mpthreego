@@ -1,3 +1,2 @@
 # golang vendor directory
-
-vendor/*
+vendor/
