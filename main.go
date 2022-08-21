@@ -23,7 +23,7 @@ func main() {
 	tm.Clear()
 	programName := "MP3GO"
 	tm.MoveCursor(1, 1)
-	tm.Print("killythecat")
+	tm.Print(tm.Color("killythecat", tm.RED))
 	tm.MoveCursor((tm.Width()/2) - (len(programName)/2), 1)
 	tm.Println(programName)
 
@@ -85,19 +85,25 @@ func main() {
 				if a == index {
 					tm.Print("-> ")
 				}
-				tm.Print(mp3s[a])
+				x := tm.Width() - 2*(tm.Width()/3)+2
+				if len(mp3s[a]) < x {
+					x = len(mp3s[a]) - 1
+				}
+				{
+					tm.Print(tm.Color(mp3s[a][:x], tm.MAGENTA))
+				}
 				startpos+=1
 			}
 			tm_mutex.Unlock()
 		}()
 		tm_mutex.Lock()
-		tm.MoveCursor(1,4)
+		tm.MoveCursor(1,6)
 		// playbackControlsWindow := tm.NewBox(50|tm.PCT, tm.Height()-10, 0)
 		playbackAltered = false
-		tm.Println("Playing song ", index+1)
+		tm.Println(tm.Color("Playing song ", tm.GREEN), index+1)
 		
 		go PlayFile(mp3s[index], done)
-		tm.Println("Now playing file ", mp3s[index], "\nPress \"s\" to start the song over\nPress \"p\" to go to previous song\nPress \"n\" to go to next song")
+		tm.Println(tm.Color("Now playing file ", tm.CYAN), mp3s[index], "\nPress \"s\" to start the song over\nPress \"p\" to go to previous song\nPress \"n\" to go to next song")
 		tm_mutex.Unlock()
 
 		// tm.Print(tm.MoveTo(playbackControlsWindow.String(), 1, 5))
